@@ -1,0 +1,15 @@
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "DTZ"]
+ignore = [
+    # FastAPI's dependency-injection pattern relies on calling Depends()
+    # in argument defaults - that's the idiom, not a bug.
+    "B008",
+]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
