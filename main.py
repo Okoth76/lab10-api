@@ -9,7 +9,9 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
 
-from database.session import get_session
+from contextlib import asynccontextmanager
+
+from database.session import create_db_and_tables, get_session
 from models.product import (
     Category,
     CategoryCreate,
@@ -21,7 +23,14 @@ from models.product import (
     SupplierCreate,
 )
 
-app = FastAPI(title="TechVault Inventory API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
+
+
+app = FastAPI(title="TechVault Inventory API", version="1.0.0", lifespan=lifespan)
 
 START_TIME = time.time()
 
