@@ -1,6 +1,7 @@
 import logging
 import platform
 import time
+from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 
 from fastapi import Depends, FastAPI, HTTPException, Request
@@ -8,8 +9,6 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 from sqlmodel import Session, select
-
-from contextlib import asynccontextmanager
 
 from database.session import create_db_and_tables, get_session
 from models.product import (
